@@ -24,6 +24,7 @@ public class FCHelperModule : EverestModule
     public static FCHelperModuleSaveData SaveData_ => (FCHelperModuleSaveData)Instance._SaveData;
 
     public static Hook mapEditorRender;
+    public static Hook mapEditorUpdate;
 
     public FCHelperModule()
     {
@@ -45,7 +46,13 @@ public class FCHelperModule : EverestModule
                 typeof(MapEditor).GetMethod("Render", BindingFlags.Public | BindingFlags.Instance),
                 typeof(MapEditorExt).GetMethod("Render"));
 
+        mapEditorUpdate = new Hook(
+                typeof(MapEditor).GetMethod("Update", BindingFlags.Public | BindingFlags.Instance),
+                typeof(MapEditorExt).GetMethod("Update"));
+
+
         IL.Celeste.Editor.MapEditor.RenderManualText += MapEditorExt.IL_RenderManuelText;
+
     }
 
     public override void Unload()

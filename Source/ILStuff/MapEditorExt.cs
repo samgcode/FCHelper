@@ -10,19 +10,23 @@ using Microsoft.Xna.Framework.Input;
 using Monocle;
 using MonoMod.Cil;
 
-
-
 namespace Celeste.Mod.FCHelper.ILStuff;
 
 class MapEditorExt
 {
+  private static List<Vector2> hearts;
+  private static List<Vector2> cassettes;
+  private static List<Vector2> moonBerries;
+  private static int currentMB = 0;
+  private static int currentHeart = 0;
+
   public static void Render(Action<MapEditor> orig, MapEditor self)
   {
     orig(self);
 
-    List<Vector2> hearts = new List<Vector2>();
-    List<Vector2> cassettes = new List<Vector2>();
-    List<Vector2> moonBerries = new List<Vector2>();
+    hearts = new List<Vector2>();
+    cassettes = new List<Vector2>();
+    moonBerries = new List<Vector2>();
 
     foreach (LevelData level in self.mapData.Levels)
     {
@@ -106,6 +110,38 @@ class MapEditorExt
 
   public static string ReplaceManuelText(string text)
   {
-    return "Right Click:  Teleport to the room\nConfirm:      Teleport to the room\nHold Control: Restart Chapter before teleporting\nHold Shift:   Teleport to the mouse position\nCancel:       Exit debug map\nQ:            Show berries\nF1:           Show other collectables\nF2:           Center on current respawn point\nF5:           Show/Hide instructions";
+    return "Right Click:  Teleport to the room\nConfirm:      Teleport to the room\nHold Control: Restart Chapter before teleporting\nHold Shift:   Teleport to the mouse position\nCancel:       Exit debug map\nQ:            Show berries\nF1:           Show other collectables\nF2:           Center on current respawn point\nF3:           Center on cassette\nF4:           Center on moon berry\nF5:           Show/Hide instructions\nF6:           Center on heart";
+  }
+
+  public static void Update(Action<MapEditor> orig, MapEditor self)
+  {
+    orig(self);
+
+    if (MInput.Keyboard.Pressed(Keys.F3))
+    {
+      MapEditor.Camera.position = cassettes[0];
+    }
+
+    if (MInput.Keyboard.Pressed(Keys.F4))
+    {
+      currentMB++;
+      if (currentMB >= moonBerries.Count)
+      {
+        currentMB = 0;
+      }
+
+      MapEditor.Camera.position = moonBerries[currentMB];
+    }
+
+    if (MInput.Keyboard.Pressed(Keys.F6))
+    {
+      currentHeart++;
+      if (currentHeart >= hearts.Count)
+      {
+        currentHeart = 0;
+      }
+
+      MapEditor.Camera.position = hearts[currentHeart];
+    }
   }
 }
