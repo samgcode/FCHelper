@@ -1,5 +1,5 @@
 - Name: FCHelper
-  Version: 1.1.0
+  Version: 1.1.1
   DLL: bin/FCHelper.dll
   Dependencies:
     - Name: EverestCore

@@ -119,11 +119,15 @@ class MapEditorExt
 
     if (MInput.Keyboard.Pressed(Keys.F3))
     {
+      if (cassettes.Count == 0) return;
+
       MapEditor.Camera.position = cassettes[0];
     }
 
     if (MInput.Keyboard.Pressed(Keys.F4))
     {
+      if (moonBerries.Count == 0) return;
+
       currentMB++;
       if (currentMB >= moonBerries.Count)
       {
@@ -135,6 +139,8 @@ class MapEditorExt
 
     if (MInput.Keyboard.Pressed(Keys.F6))
     {
+      if (hearts.Count == 0) return;
+
       currentHeart++;
       if (currentHeart >= hearts.Count)
       {
