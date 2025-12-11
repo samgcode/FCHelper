@@ -57,7 +57,9 @@ class MapEditorExt
       {
         try
         {
-          if (item.Values.TryGetValue("moon", out object value))
+          if (
+            item.Name == "strawberry" &&
+            item.Values.TryGetValue("moon", out object value))
           {
             if (value is bool moon && moon)
             {
